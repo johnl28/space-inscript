@@ -16,7 +16,7 @@ enum GameState {
 class Application
 {
 public:
-	Application();
+	Application(int width, int height);
 	void Run();
 
 
@@ -24,7 +24,7 @@ private:
 	GameState m_state = STATE_NONE;
 	bool m_running = false;
 
-	Renderer m_renderer;
-	InputManager m_inputManager;
+	std::shared_ptr<Renderer> m_renderer = nullptr;
+	std::shared_ptr<InputManager> m_inputManager = nullptr;
 };
 

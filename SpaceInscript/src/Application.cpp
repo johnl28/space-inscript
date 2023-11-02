@@ -1,10 +1,10 @@
 #include "Application.h"
 
 
-Application::Application()
+Application::Application(int width, int height)
 {
-	m_renderer = Renderer();
-	m_inputManager = InputManager();
+	m_renderer = std::make_shared<Renderer>(width, height);
+	m_inputManager = std::make_shared<InputManager>();
 }
 
 void Application::Run()
@@ -13,8 +13,8 @@ void Application::Run()
 
 	while (m_running)
 	{
-		m_renderer.OnUpdate();
-		m_inputManager.OnUpdate();
+		m_renderer->OnUpdate();
+		m_inputManager->OnUpdate();
 	}
 }
 
