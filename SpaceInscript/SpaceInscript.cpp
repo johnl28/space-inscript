@@ -5,9 +5,8 @@
 int main()
 {
 
-    Application* app = new Application();
+    Application* app = new Application(10, 10);
     app->Run();
 
-    std::cout << "Hello World!\n";
 }
 
