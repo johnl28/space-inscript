@@ -1,8 +1,7 @@
 #pragma once
-#include <memory>
-
+#include "Core.h"
 #include "Renderer.h"
-#include "Input.h"
+#include "InputManager.h"
 
 
 enum GameState {
@@ -25,6 +24,7 @@ private:
 	GameState m_state = STATE_NONE;
 	bool m_running = false;
 
-	std::shared_ptr<Renderer> m_renderer = nullptr;
+	Renderer m_renderer;
+	InputManager m_inputManager;
 };
 

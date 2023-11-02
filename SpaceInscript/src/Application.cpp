@@ -3,7 +3,8 @@
 
 Application::Application()
 {
-	m_renderer = std::make_shared<Renderer>();
+	m_renderer = Renderer();
+	m_inputManager = InputManager();
 }
 
 void Application::Run()
@@ -12,7 +13,8 @@ void Application::Run()
 
 	while (m_running)
 	{
-		m_renderer->OnUpdate();
+		m_renderer.OnUpdate();
+		m_inputManager.OnUpdate();
 	}
 }
 
