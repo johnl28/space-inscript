@@ -1,6 +1,11 @@
 #pragma once
 
 #include <Windows.h>
-#include <iostream>
 #include <vector>
 #include <memory>
+
+
+#define MAX_TPS 60
+
+
+

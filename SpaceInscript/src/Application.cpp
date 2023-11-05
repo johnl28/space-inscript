@@ -13,8 +13,10 @@ void Application::Run()
 
 	while (m_running)
 	{
-		m_renderer->OnUpdate();
 		m_inputManager->OnUpdate();
+		m_renderer->OnUpdate();
+
+		Sleep(1000 / MAX_TPS);
 	}
 }
 
