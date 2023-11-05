@@ -22,4 +22,6 @@ void Renderer::DrawWindow()
 			PrintToCoordinates(x, y, "#");
 		}
 	}
+
+	PrintToCoordinates(20, 5, "@");
 }
