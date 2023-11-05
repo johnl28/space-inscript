@@ -12,11 +12,14 @@ void Renderer::OnUpdate()
 	DrawWindow();
 }
 
-
 void Renderer::DrawWindow()
 {
+
 	for (int y = 0; y < m_height; ++y)
 	{
-		PrintToCoordinates(0, y, "CF?");
+		for (int x = 0; x < m_width; ++x)
+		{
+			PrintToCoordinates(x, y, "#");
+		}
 	}
 }
