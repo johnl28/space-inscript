@@ -7,8 +7,6 @@
 enum GameState {
 	STATE_NONE = 0,
 
-	STATE_MAIN_NENU,
-	STATE_PAUSE,
 	STATE_PLAYING
 };
 

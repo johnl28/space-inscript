@@ -10,6 +10,17 @@ Renderer::Renderer(int width, int height) :
 void Renderer::OnUpdate()
 {
 	DrawWindow();
+
+	Entity entity('@');
+	entity.SetXY(2, 3);
+
+	RenderEntity(&entity);
+}
+
+void Renderer::RenderEntity(Entity* entity)
+{
+	Position pos = entity->GetPosition();
+	PrintToCoordinates(pos.x, pos.y, entity->GetSymbol());
 }
 
 void Renderer::DrawWindow()

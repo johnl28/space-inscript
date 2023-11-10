@@ -5,7 +5,7 @@
 #include "Entity.h"
 
 
-inline void PrintToCoordinates(int x, int y, const char* format, ...)
+inline void PrintToCoordinates(int x, int y, const char* format)
 {
 	static HANDLE hout = nullptr;
 	if (!hout) {
@@ -22,6 +22,7 @@ class Renderer
 public:
 	Renderer(int width, int height);
 
+	void RenderEntity(Entity* entity);
 	void OnUpdate();
 
 private:
@@ -31,7 +32,7 @@ private:
 	int m_width;
 	int m_height;
 
-	std::vector<char> m_buffer;
+	std::vector<Entity> m_entities;
 };
 
 

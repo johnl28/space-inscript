@@ -58,6 +58,11 @@ public:
 		m_position.y = y;
 	}
 
+	const char* GetSymbol()
+	{
+		return &m_symbol;
+	}
+
 private:
 	Position m_position = {0, 0};
 	char m_symbol;
