@@ -4,7 +4,7 @@
 
 int main()
 {
-    Application* app = new Application(100, 10);
+    Application* app = new Application(100, 20);
     app->Run();
 }
 
