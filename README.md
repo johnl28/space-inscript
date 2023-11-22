@@ -1,7 +1,7 @@
 # Space Inscript
 
 ## Description
- - You are controlling a spaceship that is moving in an endless universe and enemies along other space objects will be able to destroy your spaceship if they collide.
+ - You are controlling a spaceship that is moving in an endless universe and enemies along with other space objects will be able to destroy your spaceship if they collide.
 
    Reach the highest score by avoiding the obstacles that are in your way.
   
@@ -10,9 +10,9 @@
 
 ## Technical Stuff & How to build
 
-- The game is created in C++ for Windows platform.
+- The game is created in C++ for Windows
 - The repository is consisting of a .sln file
-- To build the game you just need to open the solution with Visual Studio 2022 (v143)
+- To build the game you just need to open the solution with Visual Studio 2022 (v143) and run the build task
 
 
 ### Conceptual Class UML Diagram
