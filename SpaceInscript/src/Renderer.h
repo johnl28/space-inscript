@@ -1,38 +1,38 @@
 #pragma once
-#include <iostream>
-
+#include "Singleton.h"
 #include "Core.h"
-#include "Entity.h"
+#include "GameObject.h"
+
+static HANDLE hout = nullptr;
+
+inline void PrintToCoordinates(int x, int y, const char* format, ...);
+inline void ClearConsole();
 
 
-inline void PrintToCoordinates(int x, int y, const char* format)
-{
-	static HANDLE hout = nullptr;
-	if (!hout) {
-		hout = GetStdHandle(STD_OUTPUT_HANDLE);
-	}
-
-	DWORD dwWritten = 0;
-	COORD cursor = { static_cast<short>(x), static_cast<short>(y) };
-	WriteConsoleOutputCharacterA(hout, static_cast<LPCSTR>(format), strlen(format), cursor, &dwWritten);
-}
-
-class Renderer
+class Renderer: public Singleton<Renderer>
 {
 public:
-	Renderer(int width, int height);
+	void Initialise(int width, int height);
 
-	void RenderEntity(Entity* entity);
-	void OnUpdate();
+	bool AddGameObject(std::shared_ptr<GameObject> object);
+	bool DeleteGameObject(std::shared_ptr<GameObject> object);
+
+	bool IsObjectClipped(const GameObject* object);
+
+
+	void Update();
 
 private:
-	void DrawWindow();
+	void RenderGameObject(const GameObject* object);
+	void RenderGameObjects();
+	void DrawWindowFrame();
 
 private:
 	int m_width;
 	int m_height;
 
-	std::vector<Entity> m_entities;
+	std::map<int, std::shared_ptr<GameObject>> m_objects;
+
 };
 
 
