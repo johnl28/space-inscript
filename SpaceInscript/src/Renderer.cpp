@@ -1,90 +1,107 @@
 #include "Renderer.h"
-#include "Player.h"
-
 
 
 void Renderer::Initialise(int width, int height)
 {
 	m_width = width;
 	m_height = height;
+
+	InitBuffers();
 }
 
-void Renderer::Update()
+void Renderer::Draw()
 {
-	ClearConsole();
-	this->DrawWindowFrame();
-	this->RenderGameObjects();
+	RenderFrame();
+	ClearBuffer();
 }
 
-bool Renderer::AddGameObject(std::shared_ptr<GameObject> object)
+void Renderer::InitBuffers()
 {
-	if (m_objects.find(object->GetID()) != m_objects.end()) {
-		return false;
-	}
+	const size_t size = m_width * m_height;
 
-	m_objects.emplace(object->GetID(), object);
-	return true;
+	m_buffer = new ScreenPixel[size];
+
+	memset(m_buffer, DEFAULT_OBJECT_CHAR, sizeof(ScreenPixel) * size);
 }
 
-bool Renderer::DeleteGameObject(std::shared_ptr<GameObject> object)
+void Renderer::GenerateScreenOutline()
 {
-	auto it = m_objects.find(object->GetID());
-	if (it == m_objects.end()) {
-		return false;
-	}
+	// Horizontal lines
+	memset(m_buffer, WINDOW_FRAME_CHAR, sizeof(ScreenPixel) * m_width);
+	memset(&m_buffer[m_width * (m_height - 1)], WINDOW_FRAME_CHAR, sizeof(ScreenPixel) * m_width);
 
-	m_objects.erase(it);
-	return true;
-}
 
-void Renderer::RenderGameObjects()
-{
-	for (auto pair : m_objects)
+	// Vertical Lines
+	for (int y = 1; y < m_height - 1; ++y)
 	{
-		auto object = pair.second;
-		this->RenderGameObject(object.get());
+		m_buffer[y * m_width] = WINDOW_FRAME_CHAR;
+	
+		m_buffer[y * m_width + m_width - 1] = WINDOW_FRAME_CHAR;
 	}
 }
 
-void Renderer::RenderGameObject(const GameObject* object)
+void Renderer::RenderFrame()
 {
-	if (!object->IsVisible() || IsObjectClipped(object))
+	auto firstPixelRow = m_buffer;
+	auto nextPixelRow = m_buffer + m_width;
+
+	// todo: test parallel loop execution
+	// #pragma omp for
+	for (int y = 0; y < m_height; ++y)
+	{
+		std::string pixelsString(firstPixelRow, nextPixelRow);
+
+		PrintString(0, y, &pixelsString);
+
+		// Move the pointer 
+		firstPixelRow += m_width;
+		nextPixelRow += m_width;
+	}
+}
+
+
+void Renderer::ClearBuffer()
+{
+	memset(m_buffer, DEFAULT_OBJECT_CHAR, sizeof(ScreenPixel) * m_width * m_height);
+
+	GenerateScreenOutline();
+}
+
+void Renderer::DrawPixel(int x, int y, ScreenPixel pixel)
+{
+	int index = y * m_width + x;
+
+	if (index < 0 || index >= m_width * m_height)
 	{
 		return;
 	}
 
-	const Position pos = object->GetPosition();
-	PrintToCoordinates(pos.x, pos.y, object->GetSymbol()->c_str());
+	m_buffer[index] = pixel;
 }
 
-bool Renderer::IsObjectClipped(const GameObject* object)
-{
-	const Position pos = object->GetPosition();
-	if (pos.x >= m_width || pos.x <= 0 || pos.y >= m_height || pos.y <= 0)
-	{
-		return true;
-	}
 
-	return false;
-}
-
-void Renderer::DrawWindowFrame()
+inline void PrintString(int x, int y, const std::string* format)
 {
 
-	for (int y = 1; y < m_height; ++y)
-	{
-		PrintToCoordinates(0, y, &WINDOW_FRAME_CHAR);
-		PrintToCoordinates(m_width, y, &WINDOW_FRAME_CHAR);
+	static HANDLE hout = nullptr;
+	if (!hout) {
+		hout = GetStdHandle(STD_OUTPUT_HANDLE);
 	}
 
-	for (int x = 0; x < m_width + 1; ++x)
-	{
-		PrintToCoordinates(x, 0, &WINDOW_FRAME_CHAR);
-		PrintToCoordinates(x, m_height, &WINDOW_FRAME_CHAR);
-	}
+	DWORD dwWritten = 0;
+	const DWORD size = static_cast<DWORD>(format->size());
+
+	const COORD cursor = { 
+		static_cast<short>(x), 
+		static_cast<short>(y) 
+	};
+
+
+	WriteConsoleOutputCharacterA(hout, format->c_str(), size, cursor, &dwWritten);
 }
 
 
+#if 0
 inline void PrintToCoordinates(int x, int y, const char* format, ...)
 {
 	if (!hout) {
@@ -97,12 +114,13 @@ inline void PrintToCoordinates(int x, int y, const char* format, ...)
 	vsnprintf(buffer, sizeof(buffer), format, args);
 	va_end(args);
 
+
 	DWORD dwWritten = 0;
 	COORD cursor = { static_cast<short>(x), static_cast<short>(y) };
 	WriteConsoleOutputCharacterA(hout, buffer, static_cast<DWORD>(strlen(buffer)), cursor, &dwWritten);
 }
 
-inline void ClearConsole()
+inline void ClearScreen(int width, int height)
 {
 	if (!hout) {
 		hout = GetStdHandle(STD_OUTPUT_HANDLE);
@@ -118,3 +136,4 @@ inline void ClearConsole()
 
 	SetConsoleCursorPosition(hout, cursorPosition);
 }
+#endif
