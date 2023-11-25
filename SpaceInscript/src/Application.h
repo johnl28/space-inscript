@@ -1,7 +1,6 @@
 #pragma once
-
 #include "Core.h"
-
+#include "GameCore.h"
 
 enum GameState {
 	STATE_NONE = 0,
@@ -16,11 +15,14 @@ public:
 	void Run();
 
 private:
-	inline void PrintDebugInfo();
+	void InitGameCore();
 
 
 private:
 	GameState m_state = STATE_NONE;
+
+	std::shared_ptr<GameCore> m_gameCore;
+
 	bool m_running = false;
 
 	int m_width;
