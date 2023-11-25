@@ -3,7 +3,6 @@
 #include "GameObject.h"
 #include "Controller/Controller.h"
 
-class Renderer;
 
 /* Actors are derived from GameObject and can be possessed by a controller.
 * It has basic functionalities for movement and collisions.
@@ -40,7 +39,7 @@ public:
 		
 	}
 
-	bool IsColliding(const Actor* otherActor)
+	bool IsColliding(const Actor* otherActor) const
 	{
 		Position otherPos = otherActor->GetPosition();
 		Position thisPos = this->GetPosition();
@@ -79,7 +78,7 @@ public:
 		return m_controller;
 	}
 
-	bool IsActive()
+	bool IsActive() const
 	{
 		return m_active;
 	}
@@ -91,7 +90,7 @@ public:
 		m_active = isActive;
 	}
 
-	bool IsDestroyed()
+	bool IsDestroyed() const
 	{
 		return m_isDestroyed;
 	}
