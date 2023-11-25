@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 
 #include <Windows.h>
 #include <vector>
@@ -7,21 +7,32 @@
 #include <string>
 
 
+
 #define MAX_TPS 60 // Max Game Ticks/Loops per second
 
-#define SAFE_PTR(CLASS_NAME) std::shared_ptr<CLASS_NAME>
 
-constexpr char DEFAULT_OBJECT_CHAR = ' ';
+constexpr char DEFAULT_OBJECT_CHAR = char(32);
+constexpr char WINDOW_FRAME_CHAR = char(219);
+
+
 constexpr char PLAYER_CHAR = '@';
-constexpr char WINDOW_FRAME_CHAR = '#';
-constexpr const char* ENEMY_CHAR = "****";
-constexpr char EMPTY_CELL_CHAR = ' ';
+constexpr const char* ENEMY_CHAR = "<<<";
 
 
 struct Position
 {
 	int x;
 	int y;
+
+	Position(int X = 0, int Y = 0): x(X), y(Y)
+	{
+	}
+
+	Position(const Position& other)
+	{
+		this->x = other.x;
+		this->y = other.y;
+	}
 
 	Position operator+(const Position& other) const
 	{
