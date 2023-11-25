@@ -10,26 +10,26 @@ class PerformanceMonitor: public Singleton<PerformanceMonitor>
 public:
 	void Initialise()
 	{
-		ComputeFrameTime();
+		Update();
 	}
 
 
-	void ComputeFrameTime()
+	void Update()
 	{
-		auto astFrameUpdateTime = std::chrono::high_resolution_clock::now();
+		auto lastFrameUpdateTime = std::chrono::high_resolution_clock::now();
 
-		m_deltaTime = std::chrono::duration<float, std::milli>(astFrameUpdateTime - m_lastFrameUpdateTime).count() / 1000.0f;
+		m_deltaTime = std::chrono::duration<float, std::milli>(lastFrameUpdateTime - m_lastFrameUpdateTime).count() / 1000.0f;
 
-		m_lastFrameUpdateTime = astFrameUpdateTime;
+		m_lastFrameUpdateTime = lastFrameUpdateTime;
 	}
 
 
-	float GetFPS()
+	int GetFPS() const
 	{
-		return 1.0f / m_deltaTime;
+		return static_cast<int>(1.0f / m_deltaTime);
 	}
 
-	float GetDeltaTime()
+	float GetDeltaTime() const
 	{
 		return m_deltaTime;
 	}
