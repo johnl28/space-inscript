@@ -1,10 +1,11 @@
 #include "ActorManager.h"
-#include "Enemy.h"
+#include "GameView.h"
+#include "Entity/Enemy.h"
 
 
 void ActorManager::Update()
 {
-	for (auto it : m_actors)
+	for (auto &it : m_actors)
 	{
 		auto actor = it.second;
 
@@ -35,7 +36,7 @@ bool ActorManager::AddActor(std::shared_ptr<Actor> actor)
 
 	m_actors.emplace(actor->GetID(), actor);
 
-	Renderer::GetInstance()->AddGameObject(actor);
+	GameView::GetInstance()->AddGameObject(actor);
 
 	return true;
 }
@@ -50,7 +51,12 @@ bool ActorManager::DeleteActor(std::shared_ptr<Actor> actor)
 		return false;
 	}
 
-	Renderer::GetInstance()->DeleteGameObject(actor);
+	GameView::GetInstance()->DeleteGameObject(actor);
 	m_actors.erase(it);
 	return true;
+}
+
+int ActorManager::GetActorCount() const
+{
+	return static_cast<int>(m_actors.size());
 }
