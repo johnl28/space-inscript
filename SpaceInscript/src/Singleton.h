@@ -7,8 +7,6 @@ template <typename T>
 class Singleton
 {
 public:
-	virtual void Initialise() {};
-
 	static T* GetInstance()
 	{
 		static T* instance = nullptr;
