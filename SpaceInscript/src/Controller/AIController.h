@@ -1,7 +1,7 @@
 #pragma once
 #include "Core.h"
 #include "Controller.h"
-#include "Actor.h"
+#include "Entity/Actor.h"
 
 
 class AIController: public Controller
