@@ -1,16 +1,11 @@
 #pragma once
 #include "Core.h"
  
-class Actor;
-
+// Base class for a Controller
+// Controllers can posses an Actor to give it a specific behaviour
 class Controller
 {
 public:
-	Controller(std::shared_ptr<Actor> actor): m_actor(actor) {}
-
 	virtual void Update() = 0;
-
-protected:
-	std::shared_ptr<Actor> m_actor;
 };
 

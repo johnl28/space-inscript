@@ -24,9 +24,6 @@
     <ClCompile Include="src\Renderer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Entity\Player.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\GameCore.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -40,6 +37,18 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\UserInterface.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Entity\Player.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\UI\UIMenuWindow.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\UI\UIGameWindow.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\UI\UIDebugWindow.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -71,7 +80,7 @@
     <ClInclude Include="src\Controller\Controller.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\Controller\AIController.h">
+    <ClInclude Include="src\Controller\EnemyController.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\Controller\PlayerController.h">
@@ -104,19 +113,46 @@
     <ClInclude Include="src\UserInterface.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\UI\UIElement.h">
+    <ClInclude Include="src\UI\Element\UIElement.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\UI\UIText.h">
+    <ClInclude Include="src\UI\Element\UIText.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\UI\UIBox.h">
+    <ClInclude Include="src\UI\Element\UIBox.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\UI\UIVerticalLine.h">
+    <ClInclude Include="src\UI\Element\UIVerticalLine.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\UI\UIHorizontalLine.h">
+    <ClInclude Include="src\UI\Element\UIHorizontalLine.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Entity\CoinActor.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\UI\UIMenuWindow.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\UI\UIGameWindow.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Event\CoinSpawnEvent.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Controller\CoinController.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Event\DifficultyTrackEvent.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\UI\UIDebugWindow.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\UI\UIWindow.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\UI\Element\UIOptionText.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

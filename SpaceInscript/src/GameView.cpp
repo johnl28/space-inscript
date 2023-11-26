@@ -2,34 +2,18 @@
 
 
 
-void GameView::Update()
+void GameView::Render()
 {
 	RenderGameObjects();
 }
 
-void GameView::AddGameObject(std::shared_ptr<GameObject> object)
-{
-	m_objects[object->GetID()] = object;
-}
-
-bool GameView::DeleteGameObject(std::shared_ptr<GameObject> object)
-{
-	auto it = m_objects.find(object->GetID());
-	if (it == m_objects.end()) 
-	{
-		return false;
-	}
-
-	m_objects.erase(it);
-
-	return true;
-}
 
 void GameView::RenderGameObjects()
 {
 	for (auto &it : m_objects)
 	{
 		auto object = it.second;
+
 		RenderGameObject(object.get());
 	}
 }
@@ -53,7 +37,23 @@ void GameView::RenderGameObject(const GameObject* object)
 
 }
 
+void GameView::AddGameObject(std::shared_ptr<GameObject> object)
+{
+	m_objects[object->GetID()] = object;
+}
 
+bool GameView::DeleteGameObject(std::shared_ptr<GameObject> object)
+{
+	auto it = m_objects.find(object->GetID());
+	if (it == m_objects.end())
+	{
+		return false;
+	}
+
+	m_objects.erase(it);
+
+	return true;
+}
 
 bool GameView::IsObjectClipped(const GameObject* object) const
 {
@@ -65,4 +65,9 @@ bool GameView::IsObjectClipped(const GameObject* object) const
 	}
 
 	return false;
+}
+
+int GameView::GetObjectsCount() const
+{
+	return static_cast<int>(m_objects.size());
 }

@@ -15,9 +15,14 @@ public:
 		m_width = width;
 	}
 
-	int GetWidth() const
+	int GetWidth() override
 	{
 		return m_width;
+	}
+
+	int GetHeight() override
+	{
+		return 1;
 	}
 
 	const std::string& GetSymbol() const

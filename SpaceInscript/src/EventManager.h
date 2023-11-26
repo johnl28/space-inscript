@@ -6,6 +6,7 @@ class EventManager
 {
 public:
 	void Update();
+	void Reset();
 
 	void QueueEvent(Event *gameEvent);
 	bool DeleteEvent(Event *gameEvent);

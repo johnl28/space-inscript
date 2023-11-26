@@ -4,43 +4,48 @@
 #include "PerformanceMonitor.h"
 #include "Renderer.h"
 #include "GameCore.h"
+#include "GameView.h"
 #include "UserInterface.h"
 
 class DebugMonitor : public Singleton<DebugMonitor>
 {
 public:
-	void Initialise(std::shared_ptr<GameCore> gameCore)
+	void Initialise()
 	{
-		m_gameCore = gameCore;
-
 		InitialiseDebugWindow();
 	}
 
 	void InitialiseDebugWindow()
 	{
 
-		int debugWindowHeight = 8;
+		int debugWindowHeight = 9;
 
-		m_debugWindow = UI::GetInstance()->CreateBox(50, UI::GetInstance()->GetHeight() - debugWindowHeight, 29, 5);
+		m_debugWindow = UI::GetInstance()->CreateBox(1, 0, 29, 5);
+		m_debugWindow->SetFitChildren(true);
 
 		auto horLine = UI::GetInstance()->CreateHorizontalLine(0, 0, 0);
-		horLine->SetParent(m_debugWindow);
 		horLine->SetWidth(m_debugWindow->GetWidth());
+		m_debugWindow->AddChild(horLine);
 
 		m_textPlayerPos = UI::GetInstance()->CreateText(1, 2, "PlayerPosition");
-		m_textPlayerPos->SetParent(m_debugWindow);
+		m_debugWindow->AddChild(m_textPlayerPos);
 
 		m_textFPS = UI::GetInstance()->CreateText(1, 3, "FPS");
-		m_textFPS->SetParent(m_debugWindow);
+		m_debugWindow->AddChild(m_textFPS);
 
 		m_textTickRate = UI::GetInstance()->CreateText(1, 4, "TickRate");
-		m_textTickRate->SetParent(m_debugWindow);
+		m_debugWindow->AddChild(m_textTickRate);
 
 		m_textEventCount = UI::GetInstance()->CreateText(1, 5, "EventCount");
-		m_textEventCount->SetParent(m_debugWindow);
+		m_debugWindow->AddChild(m_textEventCount);
 
 		m_textActorCount = UI::GetInstance()->CreateText(1, 6, "ActorCount");
-		m_textActorCount->SetParent(m_debugWindow);
+		m_debugWindow->AddChild(m_textActorCount);
+
+		m_textObjectCount = UI::GetInstance()->CreateText(1, 7, "ObjectCount");
+		m_debugWindow->AddChild(m_textObjectCount);
+
+		m_debugWindow->SetY(UI::GetInstance()->GetHeight() - m_debugWindow->GetHeight() - 2);
 	}
 
 	void Update()
@@ -52,9 +57,10 @@ public:
 
 		auto performance = PerformanceMonitor::GetInstance();
 
-		auto player = m_gameCore->GetPlayer();
-		auto eventManager = m_gameCore->GetEventManager();
-		auto actorManager = m_gameCore->GetActorManager();
+		auto player = GameCore::GetInstance()->GetPlayer();
+		auto eventManager = GameCore::GetInstance()->GetEventManager();
+		auto actorManager = GameCore::GetInstance()->GetActorManager();
+		auto gameView = GameView::GetInstance();
 
 		if (player)
 		{
@@ -70,10 +76,10 @@ public:
 		{
 			m_textActorCount->SetText(std::format("Total Actors {}", actorManager->GetActorCount()));
 		}
+		m_textObjectCount->SetText(std::format("Total Objects: {}", gameView->GetObjectsCount()));
 
 		m_textFPS->SetText(std::format("FPS: {}", performance->GetFPS()));
 		m_textTickRate->SetText(std::format("DeltaTime: {:.3f}", performance->GetDeltaTime()));
-
 	}
 
 
@@ -91,8 +97,8 @@ private:
 	UIText* m_textTickRate;
 	UIText* m_textEventCount;
 	UIText* m_textActorCount;
+	UIText* m_textObjectCount;
 
-	std::shared_ptr<GameCore> m_gameCore;
 	bool m_enabled = true;
 };
 

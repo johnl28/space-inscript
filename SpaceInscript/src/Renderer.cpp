@@ -9,34 +9,69 @@ void Renderer::Initialise(int width, int height)
 	InitBuffers();
 }
 
+void Renderer::Destroy()
+{
+#ifdef DOUBLE_BUFFER_RENDERING
+	delete m_backBuffer;
+#endif
+
+	delete m_buffer;
+}
+
 void Renderer::Draw()
 {
+#ifdef DOUBLE_BUFFER_RENDERING
+	SwapBuffer();
+#endif
 	RenderFrame();
 	ClearBuffer();
 }
+
+#ifdef DOUBLE_BUFFER_RENDERING
+void Renderer::SwapBuffer()
+{
+	std::swap(m_frontBuffer, m_backBuffer);
+}
+#endif
 
 void Renderer::InitBuffers()
 {
 	const size_t size = m_width * m_height;
 
-	m_buffer = new ScreenPixel[size];
+#ifdef DOUBLE_BUFFER_RENDERING
+	m_backBuffer = new ScreenPixel[size];
+	m_frontBuffer = new ScreenPixel[size];
 
+	memset(m_backBuffer, DEFAULT_OBJECT_CHAR, sizeof(ScreenPixel) * size);
+	memset(m_frontBuffer, DEFAULT_OBJECT_CHAR, sizeof(ScreenPixel) * size);
+	m_buffer = m_frontBuffer;
+#else
+	m_buffer = new ScreenPixel[size];
 	memset(m_buffer, DEFAULT_OBJECT_CHAR, sizeof(ScreenPixel) * size);
+#endif
+
 }
 
 void Renderer::GenerateScreenOutline()
 {
+#ifdef DOUBLE_BUFFER_RENDERING
+	auto buffer = m_backBuffer;
+#else
+	auto buffer = m_buffer;
+#endif
+
+
 	// Horizontal lines
-	memset(m_buffer, WINDOW_FRAME_CHAR, sizeof(ScreenPixel) * m_width);
-	memset(&m_buffer[m_width * (m_height - 1)], WINDOW_FRAME_CHAR, sizeof(ScreenPixel) * m_width);
+	memset(buffer, WINDOW_FRAME_CHAR, sizeof(ScreenPixel) * m_width);
+	memset(&buffer[m_width * (m_height - 1)], WINDOW_FRAME_CHAR, sizeof(ScreenPixel) * m_width);
 
 
 	// Vertical Lines
 	for (int y = 1; y < m_height - 1; ++y)
 	{
-		m_buffer[y * m_width] = WINDOW_FRAME_CHAR;
+		buffer[y * m_width] = WINDOW_FRAME_CHAR;
 	
-		m_buffer[y * m_width + m_width - 1] = WINDOW_FRAME_CHAR;
+		buffer[y * m_width + m_width - 1] = WINDOW_FRAME_CHAR;
 	}
 }
 
@@ -62,7 +97,11 @@ void Renderer::RenderFrame()
 
 void Renderer::ClearBuffer()
 {
+#ifdef DOUBLE_BUFFER_RENDERING
+	memset(m_backBuffer, DEFAULT_OBJECT_CHAR, sizeof(ScreenPixel) * m_width * m_height);
+#else
 	memset(m_buffer, DEFAULT_OBJECT_CHAR, sizeof(ScreenPixel) * m_width * m_height);
+#endif
 
 	GenerateScreenOutline();
 }
@@ -76,7 +115,11 @@ void Renderer::DrawPixel(int x, int y, ScreenPixel pixel)
 		return;
 	}
 
+#ifdef DOUBLE_BUFFER_RENDERING
+	m_backBuffer[index] = pixel;
+#else
 	m_buffer[index] = pixel;
+#endif
 }
 
 

@@ -39,43 +39,71 @@ public:
 		
 	}
 
-	bool IsColliding(const Actor* otherActor) const
+	bool IsColliding(Actor* otherActor)
 	{
-		Position otherPos = otherActor->GetPosition();
-		Position thisPos = this->GetPosition();
+		auto otherPos = otherActor->GetPosition();
+		auto thisPos = this->GetPosition();
 
-		return (otherPos.x == thisPos.x) && (otherPos.y == thisPos.y);
+		auto thisWidth = this->GetWidth();
+		auto otherWidth = otherActor->GetWidth();
+
+		bool isColliding = (otherPos.x < thisPos.x + thisWidth) &&
+			(thisPos.x < otherPos.x + otherWidth) &&
+			(otherPos.y == thisPos.y);
+
+		if (isColliding) 
+		{
+			OnCollide(otherActor);
+			return true;
+		}
+
+		return false;
+	}
+
+	virtual void OnCollide(Actor* otherActor)
+	{
+
 	}
 
 
 	void MoveUp()
 	{
-		this->SetY(this->GetY() - 1);
+		this->SetY(this->GetY() - m_speed);
 	}
 
 	void MoveDown()
 	{
-		this->SetY(this->GetY() + 1);
+		this->SetY(this->GetY() + m_speed);
 	}
 
 	void MoveLeft()
 	{
-		this->SetX(this->GetX() - 1);
+		this->SetX(this->GetX() - m_speed);
 	}
 
 	void MoveRight()
 	{
-		this->SetX(this->GetX() + 1);
+		this->SetX(this->GetX() + m_speed);
+	}
+
+	void SetSpeed(int speed)
+	{
+		m_speed = speed;
+	}
+
+	void IncreaseSpeed(int speedAmount)
+	{
+		m_speed += speedAmount;
 	}
 
 	void SetController(Controller* controller)
 	{
-		m_controller = controller;
+		m_controller = std::unique_ptr<Controller>(controller);
 	}
 
 	Controller* GetController()
 	{
-		return m_controller;
+		return m_controller.get();
 	}
 
 	bool IsActive() const
@@ -106,8 +134,9 @@ public:
 private:
 	bool m_active = true;
 	bool m_isDestroyed = false;
+	int m_speed = 1;
 
-	Controller* m_controller = nullptr;
+	std::unique_ptr<Controller> m_controller = nullptr;
 };
 
 

@@ -3,21 +3,20 @@
 #include "Event.h"
 #include "GameCore.h"
 
-
 class EnemySpawnEvent: public LoopEvent
 {
 public:
-	EnemySpawnEvent(std::time_t loopIntervalMs, std::shared_ptr<GameCore> gameCore): LoopEvent(loopIntervalMs)
+	EnemySpawnEvent(std::time_t loopIntervalMs): LoopEvent(loopIntervalMs)
 	{
-		m_gameCore = gameCore;
 	}
 
 	void Trigger()
 	{
-		m_gameCore->SpawnRandomEnemy();
+		auto game = GameCore::GetInstance();
+
+		game->SpawnRandomEnemy();
 	}
 
-private:
-	std::shared_ptr<GameCore> m_gameCore;
+
 };
 

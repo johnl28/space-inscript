@@ -3,9 +3,10 @@
 
 void EventManager::Update()
 {
-	for (auto it : m_eventsMap)
+	for (auto it = m_eventsMap.begin(); it != m_eventsMap.end();)
 	{
-		auto event = it.second;
+		auto event = it->second;
+		it++;
 
 		if (event->IsDestroyed())
 		{
@@ -14,6 +15,16 @@ void EventManager::Update()
 		}
 
 		event->Update();
+	}
+}
+
+void EventManager::Reset()
+{
+	for (auto it = m_eventsMap.begin(); it != m_eventsMap.end();)
+	{
+		auto event = it->second;
+		it++;
+		DeleteEvent(event.get());
 	}
 }
 

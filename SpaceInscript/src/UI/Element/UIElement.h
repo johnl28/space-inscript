@@ -11,16 +11,19 @@ enum class UIElementType
 };
 
 
+
+
 class UIElement
 {
 public:
+	virtual int GetWidth() = 0;
+	virtual int GetHeight() = 0;
+
 	UIElement() {}
 
 	UIElement(int x = 0, int y = 0, std::shared_ptr<UIElement> parent = nullptr)
 	{
-		m_parent = parent;
-		m_position.x = x;
-		m_position.y = y;
+		m_position = { x, y };
 	}
 
 
@@ -93,6 +96,11 @@ public:
 
 	bool IsVisible() const
 	{
+		if (m_parent && !m_parent->IsVisible()) 
+		{
+			return false;
+		}
+
 		return m_visible;
 	}
 
@@ -101,8 +109,9 @@ public:
 		m_visible = visible;
 	}
 
+
 	// When called, it will be marked as destroyed and deleted in the next frame
-	void Destroy()
+	virtual void Destroy()
 	{
 		m_destroyed = true;
 	}
@@ -119,11 +128,14 @@ protected:
 		m_type = type;
 	}
 
-private:
+protected:
 	int m_id = 0;
 
 	bool m_visible = true;
 	bool m_destroyed = false;
+
+	int m_width = 0;
+	int m_height = 0;
 
 	std::shared_ptr<UIElement> m_parent = nullptr;
 	UIElementType m_type = UIElementType::ELEMENT_BASE;

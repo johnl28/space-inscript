@@ -1,5 +1,4 @@
 #include "UserInterface.h"
-#include "Renderer.h"
 
 void UI::Initialise(int x, int y, int width, int height)
 {
@@ -9,12 +8,22 @@ void UI::Initialise(int x, int y, int width, int height)
 	m_height = height;
 
 	CreateVerticalLine(0, 0, m_height);
-	CreateHorizontalLine(1, 5, m_width-1);
+
+	CreateLogoHeader();
 }
 
-void UI::Update()
+void UI::CreateLogoHeader()
 {
+	auto window = CreateBox(1, 0, m_width - 1, 5);
+	//window->SetFill(true);
 
+	auto text = CreateText(0, 2, "Space Inscript v1.0");
+	window->AddChild(text);
+	text->SetHorizontalAlignCentered(true);
+}
+
+void UI::Render()
+{
 	DrawElements();
 }
 
@@ -55,10 +64,29 @@ void UI::DrawElement(UIElement* element)
 		DrawTextElement(element);
 		break;
 
+	case UIElementType::ELEMENT_BOX:
+		DrawBoxElement(element);
+		break;
+
 	default:
 		break;
 	}
 }
+
+
+bool UI::DeleteElement(UIElement* element)
+{
+	auto it = m_elements.find(element->GetID());
+	if (it == m_elements.end())
+	{
+		return false;
+	}
+
+	m_elements.erase(it);
+	return true;
+}
+
+
 
 UIVerticalLine* UI::CreateVerticalLine(int x, int y, int height)
 {
@@ -85,6 +113,14 @@ UIText* UI::CreateText(int x, int y, std::string text)
 	return textElement;
 }
 
+UIOptionText* UI::CreateOptionText(int x, int y, std::string label)
+{
+	UIOptionText* textElement = new UIOptionText(x, y, label);
+	AddElement(textElement);
+
+	return textElement;
+}
+
 UIBox* UI::CreateBox(int x, int y, int width, int height)
 {
 	UIBox* boxElement = new UIBox(x, y, width, height);
@@ -102,17 +138,6 @@ void UI::AddElement(UIElement *element)
 	m_elements[id] = std::shared_ptr<UIElement>(element);
 }
 
-bool UI::DeleteElement(UIElement* element)
-{
-	auto it = m_elements.find(element->GetID());
-	if (it == m_elements.end())
-	{
-		return false;
-	}
-
-	m_elements.erase(it);
-	return true;
-}
 
 void UI::DrawVerticalLineElement(UIElement *element)
 {
@@ -168,3 +193,28 @@ void UI::DrawTextElement(UIElement* element)
 	}
 }
 
+
+void UI::DrawBoxElement(UIElement* element)
+{
+	UIBox* boxElement = dynamic_cast<UIBox*>(element);
+	if (!boxElement)
+	{
+		return;
+	}
+
+	if (!boxElement->IsFilled())
+	{
+		return;
+	}
+
+	Position screenPos = boxElement->GetGlobalPos();
+	LocalPosToScreenPos(&screenPos);
+
+	for (int y = 0; y < boxElement->GetHeight(); ++y)
+	{
+		for (int x = 0; x < boxElement->GetWidth(); ++x)
+		{
+			Renderer::GetInstance()->DrawPixel(screenPos.x + x, screenPos.y + y, *boxElement->GetSymbol().c_str());
+		}
+	}
+}

@@ -1,8 +1,8 @@
 #pragma once
-#include "Singleton.h"
 #include "Core.h"
-#include "Entity/GameObject.h"
+#include "Singleton.h"
 
+//#define DOUBLE_BUFFER_RENDERING
 
 inline void PrintString(int x, int y, const std::string* format);
 
@@ -11,7 +11,7 @@ typedef char ScreenPixel;
 class Viewport
 {
 public:
-	virtual void Update() = 0;
+	virtual void Render() = 0;
 
 	virtual void Initialise(int x, int y, int width, int height)
 	{
@@ -48,6 +48,7 @@ class Renderer: public Singleton<Renderer>
 {
 public:
 	void Initialise(int width, int height);
+	void Destroy();
 	void Draw();
 
 	void DrawPixel(int x, int y, ScreenPixel pixel);
@@ -59,11 +60,20 @@ private:
 	void InitBuffers();
 	void RenderFrame();
 
+#ifdef DOUBLE_BUFFER_RENDERING
+	void SwapBuffer();
+#endif
+
 private:
 	int m_width = 0;
 	int m_height = 0;
 
 	ScreenPixel* m_buffer;
+#ifdef DOUBLE_BUFFER_RENDERING
+	ScreenPixel* m_backBuffer;
+	ScreenPixel* m_frontBuffer;
+#endif
+
 };
 
 

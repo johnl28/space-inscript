@@ -155,17 +155,27 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\UI\UIGameWindow.cpp" />
+    <ClCompile Include="src\UI\UIMenuWindow.cpp" />
+    <ClCompile Include="src\Entity\Player.cpp" />
     <ClCompile Include="src\EventManager.cpp" />
     <ClCompile Include="src\ActorManager.cpp" />
     <ClCompile Include="src\GameCore.cpp" />
-    <ClCompile Include="src\Entity\Player.cpp" />
     <ClCompile Include="src\Renderer.cpp" />
     <ClCompile Include="src\Application.cpp" />
     <ClCompile Include="SpaceInscript.cpp" />
     <ClCompile Include="src\GameView.cpp" />
     <ClCompile Include="src\UserInterface.cpp" />
+    <ClCompile Include="src\UI\UIDebugWindow.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\Event\DifficultyTrackEvent.h" />
+    <ClInclude Include="src\Controller\CoinController.h" />
+    <ClInclude Include="src\Event\CoinSpawnEvent.h" />
+    <ClInclude Include="src\UI\Element\UIOptionText.h" />
+    <ClInclude Include="src\UI\UIGameWindow.h" />
+    <ClInclude Include="src\UI\UIMenuWindow.h" />
+    <ClInclude Include="src\Entity\CoinActor.h" />
     <ClInclude Include="src\EventManager.h" />
     <ClInclude Include="src\Event\EnemySpawnEvent.h" />
     <ClInclude Include="src\Event\Event.h" />
@@ -174,7 +184,7 @@
     <ClInclude Include="src\ActorManager.h" />
     <ClInclude Include="src\PerformanceMonitor.h" />
     <ClInclude Include="src\Controller\PlayerController.h" />
-    <ClInclude Include="src\Controller\AIController.h" />
+    <ClInclude Include="src\Controller\EnemyController.h" />
     <ClInclude Include="src\Controller\Controller.h" />
     <ClInclude Include="src\Entity\GameObject.h" />
     <ClInclude Include="src\Singleton.h" />
@@ -186,11 +196,13 @@
     <ClInclude Include="src\Application.h" />
     <ClInclude Include="src\GameView.h" />
     <ClInclude Include="src\UserInterface.h" />
-    <ClInclude Include="src\UI\UIElement.h" />
-    <ClInclude Include="src\UI\UIText.h" />
-    <ClInclude Include="src\UI\UIBox.h" />
-    <ClInclude Include="src\UI\UIVerticalLine.h" />
-    <ClInclude Include="src\UI\UIHorizontalLine.h" />
+    <ClInclude Include="src\UI\Element\UIElement.h" />
+    <ClInclude Include="src\UI\Element\UIText.h" />
+    <ClInclude Include="src\UI\Element\UIBox.h" />
+    <ClInclude Include="src\UI\Element\UIVerticalLine.h" />
+    <ClInclude Include="src\UI\Element\UIHorizontalLine.h" />
+    <ClInclude Include="src\UI\UIDebugWindow.h" />
+    <ClInclude Include="src\UI\UIWindow.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

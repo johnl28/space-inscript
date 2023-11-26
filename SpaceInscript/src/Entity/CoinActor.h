@@ -1,14 +1,13 @@
 #pragma once
 #include "Actor.h"
 
-class Enemy: public Actor
+class CoinActor : public Actor
 {
 public:
-	Enemy(int id) : Actor(id, ENEMY_CHAR)
+	CoinActor(int id) : Actor(id, COIN_CHAR)
 	{
 
 	}
-
 
 	void OnUpdate() override
 	{

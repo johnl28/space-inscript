@@ -1,44 +1,51 @@
 #pragma once
-#include "Controller.h"
 #include "Core.h"
+#include "Controller.h"
 #include "GameView.h"
-#include "Entity/Actor.h"
+#include "Entity/Player.h"
+
 
 class PlayerController: public Controller
 {
 public:
-	PlayerController(std::shared_ptr<Actor> actor) : Controller(actor) {}
+	PlayerController(Player *player)
+	{
+		m_player = std::shared_ptr<Player>(player);
+	}
 
 	void Update() override
 	{
  
-		int x = GameView::GetInstance()->GetWidth() - m_actor->GetX();
-		int y = GameView::GetInstance()->GetHeight() - m_actor->GetY();
+		int x = GameView::GetInstance()->GetWidth() - m_player->GetX();
+		int y = GameView::GetInstance()->GetHeight() - m_player->GetY();
 
 
 		if (GetAsyncKeyState('W') & 0x8000 && y != GameView::GetInstance()->GetHeight())
 		{
-			m_actor->MoveUp();
+			m_player->MoveUp();
 		}
 		if (GetAsyncKeyState('S') & 0x8000 && y > 1)
 		{
-			m_actor->MoveDown();
+			m_player->MoveDown();
 		}
 		if (GetAsyncKeyState('A') & 0x8000 && x != GameView::GetInstance()->GetWidth())
 		{
-			m_actor->MoveLeft();
+			m_player->MoveLeft();
 		}
 		if (GetAsyncKeyState('D') & 0x8000 && x > 1)
 		{
-			m_actor->MoveRight();
+			m_player->MoveRight();
 		}
 
 #if _DEBUG
 		if (GetAsyncKeyState('R') & 0x8000)
 		{
-			m_actor->SetXY(0, 0);
+			m_player->SetXY(0, 0);
 		}
 #endif
 	}
+
+private:
+	std::shared_ptr<Player> m_player;
 };
 

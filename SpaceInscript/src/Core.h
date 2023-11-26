@@ -5,18 +5,19 @@
 #include <map>
 #include <memory>
 #include <string>
+#include <format>
 
 
+#define MAX_TPS 30 // Max Game Ticks/Loops per second
+#define MAX_FPS 120
 
-#define MAX_TPS 60 // Max Game Ticks/Loops per second
 
-
-constexpr char DEFAULT_OBJECT_CHAR = char(32);
+constexpr const char DEFAULT_OBJECT_CHAR = char(32);
 constexpr char WINDOW_FRAME_CHAR = char(219);
 
-
-constexpr char PLAYER_CHAR = '@';
-constexpr const char* ENEMY_CHAR = "<<<";
+constexpr const char* COIN_CHAR = "*";
+constexpr const char* PLAYER_CHAR = "}=>";
+constexpr const char* ENEMY_CHAR = "@";
 
 
 struct Position

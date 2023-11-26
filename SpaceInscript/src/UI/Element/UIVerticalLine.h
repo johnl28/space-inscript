@@ -9,9 +9,14 @@ public:
 		SetType(UIElementType::ELEMENT_VERTICAL_LINE);
 	}
 
-	int GetHeight() const
+	int GetHeight() override
 	{
 		return m_height;
+	}
+
+	int GetWidth() override
+	{
+		return 1;
 	}
 
 	const std::string& GetSymbol() const

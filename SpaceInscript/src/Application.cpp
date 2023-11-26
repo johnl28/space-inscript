@@ -1,11 +1,12 @@
+#include "Application.h"
 
-#include "DebugMonitor.h"
-#include "PerformanceMonitor.h"
+
 #include "Renderer.h"
 #include "UserInterface.h"
 #include "GameView.h"
 
-#include "Application.h"
+#include "DebugMonitor.h"
+#include "PerformanceMonitor.h"
 
 
 Application::Application(int width, int height): m_width(width), m_height(height)
@@ -16,16 +17,17 @@ Application::Application(int width, int height): m_width(width), m_height(height
 	GameView::GetInstance()->Initialise(1, 1,  width - 30, height - 2);
 
 	PerformanceMonitor::GetInstance()->Initialise();
+	DebugMonitor::GetInstance()->Initialise();
 
-	this->InitGameCore();
+	GameCore::GetInstance()->Initialise();
 
-	DebugMonitor::GetInstance()->Initialise(m_gameCore);
 }
 
-void Application::InitGameCore()
+void Application::Destroy()
 {
-	m_gameCore = std::make_shared<GameCore>(m_width, m_height);
+	Renderer::GetInstance()->Destroy();
 }
+
 
 void Application::Run()
 {
@@ -33,24 +35,41 @@ void Application::Run()
 
 	while (m_running)
 	{
-		//if (m_state == STATE_PLAYING)
-		{
-			m_gameCore->Update();
-		}
 
 
-		UI::GetInstance()->Update();
-		GameView::GetInstance()->Update();
-		Renderer::GetInstance()->Draw();
+		UI::GetInstance()->Render();
+		GameView::GetInstance()->Render();
 
 		PerformanceMonitor::GetInstance()->Update();
 		DebugMonitor::GetInstance()->Update();
+		Renderer::GetInstance()->Draw();
 
-		Sleep(1000 / MAX_TPS);
+		if (CanUpdate())
+		{
+			GameCore::GetInstance()->Update();
+		}
+
+		Sleep(1000 / MAX_FPS);
 
 	}
 }
 
+bool Application::CanUpdate()
+{
+	using Clock = std::chrono::high_resolution_clock;
+	static auto lastDrawTime = Clock::now();
+
+	std::chrono::milliseconds drawInterval(1000 / MAX_TPS);
+
+	auto currentTime = Clock::now();
+	if (currentTime - lastDrawTime >= drawInterval) 
+	{
+		lastDrawTime = currentTime;
+		return true;
+	}
+
+	return false;
+}
 
 
 
