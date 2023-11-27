@@ -9,7 +9,7 @@ public:
 	void Reset();
 
 	void QueueEvent(std::shared_ptr<Event> gameEvent);
-	bool DeleteEventById(int id);
+	bool DeleteEvent(std::shared_ptr<Event> gameEvent);
 	int GetEventsCount() const;
 
 private:

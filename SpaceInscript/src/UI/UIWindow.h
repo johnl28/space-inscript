@@ -23,6 +23,16 @@ public:
 		return m_window->IsVisible();
 	}
 
+	void Hide()
+	{
+		m_window->SetVisible(false);
+	}
+
+	void Show()
+	{
+		m_window->SetVisible(true);
+	}
+
 protected:
 	std::shared_ptr<UIBox> m_window;
 };

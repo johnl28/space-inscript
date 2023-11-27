@@ -21,9 +21,10 @@ public:
 
 	UIElement() {}
 
-	UIElement(float x = 0, float y = 0, std::shared_ptr<UIElement> parent = nullptr)
+	UIElement(float x = 0, float y = 0, UIElement* parent = nullptr)
 	{
 		m_position = { x, y };
+		m_parent = parent;
 	}
 
 
@@ -61,12 +62,12 @@ public:
 
 	void SetParent(UIElement* parent)
 	{
-		m_parent = std::shared_ptr<UIElement>(parent);
+		m_parent = parent;
 	}
 
 	UIElement* GetParent()
 	{
-		return m_parent.get();
+		return m_parent;
 	}
 
 	virtual Position GetGlobalPos() const
@@ -137,7 +138,7 @@ protected:
 	int m_width = 0;
 	int m_height = 0;
 
-	std::shared_ptr<UIElement> m_parent = nullptr;
+	UIElement *m_parent = nullptr;
 	UIElementType m_type = UIElementType::ELEMENT_BASE;
 
 	Position m_position = { 0, 0 };

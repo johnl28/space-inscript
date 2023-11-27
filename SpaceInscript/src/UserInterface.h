@@ -21,11 +21,11 @@ public:
 	void CreateLogoHeader();
 
 
-	UIVerticalLine* CreateVerticalLine(float x, float y, int height);
-	UIHorizontalLine* CreateHorizontalLine(float x, float y, int width);
-	UIText* CreateText(float x, float y, std::string text);
-	UIBox* CreateBox(float x, float y, int width, int height);
-	UIOptionText* CreateOptionText(float x, float y, std::string label);
+	std::shared_ptr<UIVerticalLine> CreateVerticalLine(float x, float y, int height);
+	std::shared_ptr<UIHorizontalLine> CreateHorizontalLine(float x, float y, int width);
+	std::shared_ptr<UIText> CreateText(float x, float y, std::string text);
+	std::shared_ptr<UIBox> CreateBox(float x, float y, int width, int height);
+	std::shared_ptr<UIOptionText> CreateOptionText(float x, float y, std::string label);
 
 private:
 	void AddElement(std::shared_ptr<UIElement> element);

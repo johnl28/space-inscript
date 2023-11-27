@@ -16,6 +16,9 @@ Application::Application(int width, int height): m_width(width), m_height(height
 	GameView::GetInstance()->Initialise(1.0f, 1.0f,  width - 30, height - 2);
 	UI::GetInstance()->Initialise(to_float(width - 30 + 1), 1.0f, 30, height - 2);
 
+	//GameView::GetInstance()->Initialise(1.0f, 1.0f,  width, height - 2);
+	//UI::GetInstance()->Initialise(1.0f, 1.0f, width, height - 2);
+
 	PerformanceMonitor::GetInstance()->Initialise();
 	DebugMonitor::GetInstance()->Initialise();
 

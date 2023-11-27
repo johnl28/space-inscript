@@ -5,17 +5,19 @@
 void UIMenuWindow::Initialise()
 {
 	auto ui = UI::GetInstance();
-	//m_window->SetFill(true);
 
-	auto headLine = ui->CreateHorizontalLine(0, 0, m_window->GetWidth());
-	m_window->AddChild(headLine);
+	m_window->SetFill(true);
 
-	auto startText = ui->CreateOptionText(0, 2, "Start");
+	auto menuText = ui->CreateText(0, 1, "   Main Menu  ");
+	m_window->AddChild(menuText);
+	menuText->SetHorizontalAlignCentered(true);
+
+	auto startText = ui->CreateOptionText(0, 3, " Start ");
 	m_window->AddChild(startText);
 	startText->SetHorizontalAlignCentered(true);
 	startText->Select();
 
-	auto exitText = ui->CreateOptionText(0, 3, "Exit");
+	auto exitText = ui->CreateOptionText(0, 4, " Exit ");
 	m_window->AddChild(exitText);
 	exitText->SetHorizontalAlignCentered(true);
 
@@ -29,15 +31,15 @@ void UIMenuWindow::InitialiseInstructions()
 {
 	auto ui = UI::GetInstance();
 
-	auto instructionsWindow = ui->CreateBox(50.0f, 5.0f, 50, 4);
-	instructionsWindow->SetFill(true);
+	auto instructionsWindow = ui->CreateBox(1.0f, 6.0f, m_window->GetWidth(), 5);
+	//instructionsWindow->SetFill(true);
 	m_window->AddChild(instructionsWindow);
 
-	auto coinText = ui->CreateOptionText(0, 1, std::format("  Collect the coins: {}  ", COIN_CHAR));
+	auto coinText = ui->CreateOptionText(0, 0, std::format("   Collect the coins: {}   ", COIN_CHAR));
 	instructionsWindow->AddChild(coinText);
 	coinText->SetHorizontalAlignCentered(true);
 
-	auto enemyText = ui->CreateOptionText(0, 2, std::format("  Avoid the asteroids: {}  ", ENEMY_CHAR));
+	auto enemyText = ui->CreateOptionText(0, 1, std::format("  Avoid the asteroids: {}  ", ENEMY_CHAR));
 	instructionsWindow->AddChild(enemyText);
 	enemyText->SetHorizontalAlignCentered(true);
 }
@@ -51,19 +53,20 @@ void UIMenuWindow::Update()
 
 	if (GetAsyncKeyState('W') & 0x8000 || GetAsyncKeyState(VK_UP) & 0x8000)
 	{
-		m_selectedOption = MenuOption::START;
+		m_selectedOption = MainMenuOption::START;
 		m_startText->Select();
 		m_exitText->Deselect();
 	}
 	else if (GetAsyncKeyState('S') & 0x8000 || GetAsyncKeyState(VK_DOWN) & 0x8000)
 	{
-		m_selectedOption = MenuOption::EXIT;
+		m_selectedOption = MainMenuOption::EXIT;
 		m_exitText->Select();
 		m_startText->Deselect();
 	}
 	else if (GetAsyncKeyState(VK_RETURN) & 0x8000)
 	{
 		ExecuteSelection();
+		Sleep(60); // use a different approach
 	}
 }
 
@@ -71,11 +74,11 @@ void UIMenuWindow::ExecuteSelection()
 {
 	switch (m_selectedOption)
 	{
-	case MenuOption::START:
+	case MainMenuOption::START:
 		LevelManager::GetInstance()->StartGame();
 		break;
 
-	case MenuOption::EXIT:
+	case MainMenuOption::EXIT:
 		exit(0);
 		break;
 	}

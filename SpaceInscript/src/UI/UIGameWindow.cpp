@@ -27,6 +27,7 @@ void UIGameWindow::CreateGameOverWindow()
 {
 	auto ui = UI::GetInstance();
 
+
 	auto gameOverWindow = ui->CreateBox(50.0f, 5.0f, 50, 4);
 	gameOverWindow->SetFill(true);
 	m_window->AddChild(gameOverWindow);

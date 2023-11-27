@@ -90,14 +90,14 @@ public:
 
 private:
 
-	UIBox* m_debugWindow;
+	std::shared_ptr<UIBox> m_debugWindow;
 
-	UIText* m_textPlayerPos;
-	UIText* m_textFPS;
-	UIText* m_textTickRate;
-	UIText* m_textEventCount;
-	UIText* m_textActorCount;
-	UIText* m_textObjectCount;
+	std::shared_ptr<UIText> m_textPlayerPos;
+	std::shared_ptr<UIText> m_textFPS;
+	std::shared_ptr<UIText> m_textTickRate;
+	std::shared_ptr<UIText> m_textEventCount;
+	std::shared_ptr<UIText> m_textActorCount;
+	std::shared_ptr<UIText> m_textObjectCount;
 
 	bool m_enabled = true;
 };

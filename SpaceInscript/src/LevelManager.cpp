@@ -10,6 +10,8 @@
 #include "Entity/CoinActor.h"
 #include "Entity/Enemy.h"
 
+
+
 #include "Event/EnemySpawnEvent.h"
 #include "Event/CoinSpawnEvent.h"
 #include "Event/DifficultyTrackEvent.h"
@@ -24,22 +26,33 @@ void LevelManager::Initialise()
 
 void LevelManager::InitUI()
 {
-	m_gameWindow = std::make_unique<UIGameWindow>(1.0f, 5.0f, 29, 30);
-	m_gameWindow->Initialise();
-	m_gameWindow->SetVisible(false);
+	m_uiGameWindow = std::make_unique<UIGameWindow>(1.0f, 5.0f, 29, 5);
+	m_uiGameWindow->Initialise();
 
-	m_menuWindow = std::make_unique<UIMenuWindow>(1.0f, 5.0f, 29, 30);
-	m_menuWindow->Initialise();
+	m_uiMenuWindow = std::make_unique<UIMenuWindow>(60.0f, 5.0f, 29, 9);
+	m_uiMenuWindow->Initialise();
 
+	m_uiPauseMenuWindow = std::make_unique<UIPauseMenu>(60.0f, 5.0f, 29, 7);
+	m_uiPauseMenuWindow->Initialise();
+	m_uiPauseMenuWindow->Hide();
 }
 
 void LevelManager::Update()
 {
-	m_menuWindow->Update();
+	m_uiMenuWindow->Update();
+	m_uiPauseMenuWindow->Update();
+
 
 	if (GetAsyncKeyState('R') & 0x8000 && m_state == GameState::STATE_GAME_OVER)
 	{
 		StartGame();
+		Sleep(60); // use a different approach
+	}
+
+	if (GetAsyncKeyState(VK_ESCAPE) & 0x8000)
+	{
+		TogglePauseGame();
+		Sleep(60); // use a different approach
 	}
 
 	if (m_state != GameState::STATE_PLAYING)
@@ -48,29 +61,33 @@ void LevelManager::Update()
 	}
 
 
-	m_gameWindow->Update();
+	m_uiGameWindow->Update();
 	m_actorManager->Update();
 	m_eventManager->Update();
+}
+
+void LevelManager::ExitToMainMenu()
+{
+	SetGameState(GameState::STATE_MENU);
+	ResetLevel();
+
+	m_uiPauseMenuWindow->Hide();
+	m_uiMenuWindow->Show();
 }
 
 void LevelManager::StartGame()
 {
 	ResetLevel();
 
-	SpawnPlayer(5, 5);
-	CreateSpawnEvent();
+	SpawnPlayer(5, GameView::GetInstance()->GetHeight() / 2.0f - 1.0f);
+	CreateEvents();
 
-	m_menuWindow->SetVisible(false);
+	m_uiMenuWindow->Hide();
 
-	m_gameWindow->Reset();
-	m_gameWindow->SetVisible(true);
-	SetState(GameState::STATE_PLAYING);
-}
+	m_uiGameWindow->Reset();
 
-void LevelManager::GameOver()
-{
-	SetState(GameState::STATE_GAME_OVER);
-	m_gameWindow->ShowGameOver();
+
+	SetGameState(GameState::STATE_PLAYING);
 }
 
 void LevelManager::ResetLevel()
@@ -85,13 +102,34 @@ void LevelManager::ResetLevel()
 	m_eventManager->Reset();
 }
 
+void LevelManager::GameOver()
+{
+	SetGameState(GameState::STATE_GAME_OVER);
 
-void LevelManager::SetState(GameState state)
+	m_uiGameWindow->ShowGameOver();
+}
+
+void LevelManager::TogglePauseGame()
+{
+	if (m_state == GameState::STATE_PLAYING)
+	{
+		SetGameState(GameState::STATE_PAUSE);
+		m_uiPauseMenuWindow->Show();
+	}
+	else if(m_state == GameState::STATE_PAUSE)
+	{
+		SetGameState(GameState::STATE_PLAYING);
+		m_uiPauseMenuWindow->Hide();
+	}
+}
+
+
+void LevelManager::SetGameState(GameState state)
 {
 	m_state = state;
 }
 
-GameState LevelManager::GetState() const
+GameState LevelManager::GetGameState() const
 {
 	return m_state;
 }
@@ -105,7 +143,7 @@ int LevelManager::GetScore() const
 void LevelManager::SetScore(int score)
 {
 	m_gameScore = score;
-	m_gameWindow->SetScore(m_gameScore);
+	m_uiGameWindow->SetScore(m_gameScore);
 }
 
 void LevelManager::IncrementScore()
@@ -116,7 +154,12 @@ void LevelManager::IncrementScore()
 void LevelManager::SetDifficulty(int difficulty)
 {
 	m_gameDifficulty = difficulty;
-	m_gameWindow->SetDifficulty(m_gameDifficulty);
+	m_uiGameWindow->SetDifficulty(m_gameDifficulty);
+
+	if (difficulty > 2)
+	{
+		m_spawnEnemyEvent->SetLoopInterval(500 - difficulty * 50);
+	}
 }
 
 int LevelManager::GetDifficulty()
@@ -130,7 +173,7 @@ void LevelManager::IncrementDifficulty()
 	SetDifficulty(m_gameDifficulty+1);
 }
 
-void LevelManager::CreateSpawnEvent()
+void LevelManager::CreateEvents()
 {
 	auto enemySpawnEvent = std::make_shared<EnemySpawnEvent>(500);
 	m_eventManager->QueueEvent(enemySpawnEvent);
@@ -196,7 +239,32 @@ void LevelManager::SpawnEnemy(float x, float y)
 
 
 	enemy->SetXY(x, y);
+	auto speed = 1.0f;
 
+
+	if (m_gameDifficulty > 2)
+	{
+		float speed = 2.0f;
+	}
+	if (m_gameDifficulty > 3)
+	{
+		int n = rand() % 100;
+		if (n > 90)
+		{
+			speed = 3.0f;
+		}
+	}
+	if (m_gameDifficulty > 4)
+	{
+		speed = 2.5f;
+		int n = rand() % 100;
+		if (n > 90)
+		{
+			speed = 3.5f;
+		}
+	}
+
+	enemy->SetSpeed(speed);
 	auto enemyController = new EnemyController(enemy.get());
 	enemy->SetController(enemyController);
 
@@ -220,6 +288,11 @@ void LevelManager::SpawnCoin(float x, float y)
 	auto coin = std::make_shared<CoinActor>(coinId++);
 
 	coin->SetXY(x, y);
+	if (m_gameDifficulty > 1)
+	{
+		int speed = rand() % 3 + 1;
+		coin->SetSpeed(to_float(speed));
+	}
 
 	auto coinController = new CoinController(coin.get());
 	coin->SetController(coinController);

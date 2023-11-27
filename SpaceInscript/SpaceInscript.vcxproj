@@ -167,6 +167,7 @@
     <ClCompile Include="src\GameView.cpp" />
     <ClCompile Include="src\UserInterface.cpp" />
     <ClCompile Include="src\UI\UIDebugWindow.cpp" />
+    <ClCompile Include="src\UI\UIPauseMenu.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Event\DifficultyTrackEvent.h" />
@@ -204,6 +205,7 @@
     <ClInclude Include="src\UI\UIDebugWindow.h" />
     <ClInclude Include="src\UI\UIWindow.h" />
     <ClInclude Include="src\Utils.h" />
+    <ClInclude Include="src\UI\UIPauseMenu.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

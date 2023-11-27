@@ -1,7 +1,7 @@
 #pragma once
 #include "UIWindow.h"
 
-enum class MenuOption 
+enum class MainMenuOption 
 {
 	START,
 	EXIT,
@@ -25,7 +25,7 @@ private:
 
 private:
 
-	MenuOption m_selectedOption = MenuOption::START;
+	MainMenuOption m_selectedOption = MainMenuOption::START;
 	std::shared_ptr<UIOptionText> m_startText;
 	std::shared_ptr<UIOptionText> m_exitText;
 };

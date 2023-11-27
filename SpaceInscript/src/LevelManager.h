@@ -5,6 +5,7 @@
 
 #include "Entity/Player.h"
 
+#include "UI/UIPauseMenu.h"
 #include "UI/UIMenuWindow.h"
 #include "UI/UIGameWindow.h"
 
@@ -13,6 +14,7 @@
 enum class GameState {
 	STATE_MENU = 0,
 	STATE_PLAYING,
+	STATE_PAUSE,
 	STATE_GAME_OVER
 };
 
@@ -23,14 +25,14 @@ public:
 	void Initialise();
 	void Update();
 
-	void InitUI();
-
 	void StartGame();
 	void GameOver();
+	void ExitToMainMenu();
 
+	void TogglePauseGame();
 
-	void SetState(GameState state);
-	GameState GetState() const;
+	void SetGameState(GameState state);
+	GameState GetGameState() const;
 
 	EventManager* GetEventManager();
 	ActorManager* GetActorManager();
@@ -43,15 +45,16 @@ public:
 	void SetScore(int score);
 	void IncrementScore();
 
-
 	int GetDifficulty();
 	void SetDifficulty(int difficulty);
 	void IncrementDifficulty();
 
 
 private:
+	void InitUI();
+
 	void ResetLevel();
-	void CreateSpawnEvent();
+	void CreateEvents();
 
 	void SpawnCoin(float x, float y);
 	void SpawnEnemy(float x, float y);
@@ -65,8 +68,10 @@ private:
 
 	std::shared_ptr<Player> m_player = nullptr;
 
-	std::unique_ptr<UIGameWindow> m_gameWindow = nullptr;
-	std::unique_ptr<UIMenuWindow> m_menuWindow = nullptr;
+	std::unique_ptr<UIGameWindow> m_uiGameWindow = nullptr;
+	std::unique_ptr<UIMenuWindow> m_uiMenuWindow = nullptr;
+	std::unique_ptr<UIPauseMenu> m_uiPauseMenuWindow = nullptr;
+
 
 	std::shared_ptr<EventManager> m_eventManager = nullptr;
 	std::shared_ptr<ActorManager> m_actorManager = nullptr;

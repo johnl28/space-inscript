@@ -64,7 +64,7 @@ public:
 	}
 
 
-	bool AddChild(UIElement* element)
+	bool AddChild(std::shared_ptr<UIElement> element)
 	{
 		auto it = m_children.find(element->GetID());
 		if (it != m_children.end())
@@ -73,11 +73,11 @@ public:
 		}
 
 		element->SetParent(this);
-		m_children[element->GetID()] = std::shared_ptr<UIElement>(element);
+		m_children[element->GetID()] = element;
 		return true;
 	}
 
-	bool RemoveChild(UIElement* element)
+	bool RemoveChild(std::shared_ptr<UIElement> element)
 	{
 		auto it = m_children.find(element->GetID());
 		if (it == m_children.end())
