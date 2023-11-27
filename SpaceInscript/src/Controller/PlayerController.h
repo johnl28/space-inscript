@@ -36,7 +36,7 @@ public:
 		{
 			m_player->MoveLeft();
 		}
-		if (GetAsyncKeyState('D') & 0x8000 && x > 1)
+		if (GetAsyncKeyState('D') & 0x8000 && x > m_player->GetWidth())
 		{
 			m_player->MoveRight();
 		}
