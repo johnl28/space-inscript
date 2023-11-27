@@ -4,7 +4,7 @@
 class UIVerticalLine: public UIElement
 {
 public:
-	UIVerticalLine(int x, int y, int height) : UIElement(x, y), m_height(height)
+	UIVerticalLine(float x, float y, int height) : UIElement(x, y), m_height(height)
 	{
 		SetType(UIElementType::ELEMENT_VERTICAL_LINE);
 	}

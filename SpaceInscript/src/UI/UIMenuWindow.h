@@ -11,7 +11,7 @@ enum class MenuOption
 class UIMenuWindow: public UIWindow
 {
 public:
-	UIMenuWindow(int x, int y, int width, int height) : UIWindow(x, y, width, height)
+	UIMenuWindow(float x, float y, int width, int height) : UIWindow(x, y, width, height)
 	{
 
 	}

@@ -1,6 +1,6 @@
 #include "UserInterface.h"
 
-void UI::Initialise(int x, int y, int width, int height)
+void UI::Initialise(float x, float y, int width, int height)
 {
 	m_position = Position(x, y);
 
@@ -29,12 +29,14 @@ void UI::Render()
 
 void UI::DrawElements()
 {
-	for (auto& it : m_elements)
+	for (auto it = m_elements.begin(); it != m_elements.end();)
 	{
-		auto element = it.second;
+		it++;
+
+		auto element = it->second;
 		if (element->IsDestroyed())
 		{
-			DeleteElement(element.get());
+			DeleteElement(element);
 			continue;
 		}
 
@@ -74,7 +76,7 @@ void UI::DrawElement(UIElement* element)
 }
 
 
-bool UI::DeleteElement(UIElement* element)
+bool UI::DeleteElement(std::shared_ptr<UIElement> element)
 {
 	auto it = m_elements.find(element->GetID());
 	if (it == m_elements.end())
@@ -88,54 +90,54 @@ bool UI::DeleteElement(UIElement* element)
 
 
 
-UIVerticalLine* UI::CreateVerticalLine(int x, int y, int height)
+UIVerticalLine* UI::CreateVerticalLine(float x, float y, int height)
 {
-	UIVerticalLine* verLineElement = new UIVerticalLine(x, y, height);
+	auto verLineElement = std::make_shared<UIVerticalLine>(x, y, height);
 	AddElement(verLineElement);
 
-	return verLineElement;
+	return verLineElement.get();
 }
 
-UIHorizontalLine* UI::CreateHorizontalLine(int x, int y, int width)
+UIHorizontalLine* UI::CreateHorizontalLine(float x, float y, int width)
 {
-	UIHorizontalLine* horLineElement = new UIHorizontalLine(x, y, width);
+	auto horLineElement = std::make_shared<UIHorizontalLine>(x, y, width);
 	AddElement(horLineElement);
 
-	return horLineElement;
+	return horLineElement.get();
 }
 
 
-UIText* UI::CreateText(int x, int y, std::string text)
+UIText* UI::CreateText(float x, float y, std::string text)
 {
-	UIText* textElement = new UIText(x, y, text);
+	auto textElement = std::make_shared<UIText>(x, y, text);
 	AddElement(textElement);
 
-	return textElement;
+	return textElement.get();
 }
 
-UIOptionText* UI::CreateOptionText(int x, int y, std::string label)
+UIOptionText* UI::CreateOptionText(float x, float y, std::string label)
 {
-	UIOptionText* textElement = new UIOptionText(x, y, label);
+	auto textElement = std::make_shared<UIOptionText>(x, y, label);
 	AddElement(textElement);
 
-	return textElement;
+	return textElement.get();
 }
 
-UIBox* UI::CreateBox(int x, int y, int width, int height)
+UIBox* UI::CreateBox(float x, float y, int width, int height)
 {
-	UIBox* boxElement = new UIBox(x, y, width, height);
+	auto boxElement = std::make_shared<UIBox>(x, y, width, height);
 	AddElement(boxElement);
 
-	return boxElement;
+	return boxElement.get();
 }
 
-void UI::AddElement(UIElement *element)
+void UI::AddElement(std::shared_ptr<UIElement> element)
 {
 	static int id = 0;
 	++id;
 
 	element->SetID(id);
-	m_elements[id] = std::shared_ptr<UIElement>(element);
+	m_elements[id] = element;
 }
 
 

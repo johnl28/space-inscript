@@ -160,7 +160,7 @@
     <ClCompile Include="src\Entity\Player.cpp" />
     <ClCompile Include="src\EventManager.cpp" />
     <ClCompile Include="src\ActorManager.cpp" />
-    <ClCompile Include="src\GameCore.cpp" />
+    <ClCompile Include="src\LevelManager.cpp" />
     <ClCompile Include="src\Renderer.cpp" />
     <ClCompile Include="src\Application.cpp" />
     <ClCompile Include="SpaceInscript.cpp" />
@@ -188,7 +188,7 @@
     <ClInclude Include="src\Controller\Controller.h" />
     <ClInclude Include="src\Entity\GameObject.h" />
     <ClInclude Include="src\Singleton.h" />
-    <ClInclude Include="src\GameCore.h" />
+    <ClInclude Include="src\LevelManager.h" />
     <ClInclude Include="src\Entity\Player.h" />
     <ClInclude Include="src\Entity\Actor.h" />
     <ClInclude Include="src\Core.h" />
@@ -203,6 +203,7 @@
     <ClInclude Include="src\UI\Element\UIHorizontalLine.h" />
     <ClInclude Include="src\UI\UIDebugWindow.h" />
     <ClInclude Include="src\UI\UIWindow.h" />
+    <ClInclude Include="src\Utils.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

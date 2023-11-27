@@ -81,7 +81,7 @@ void Renderer::RenderFrame()
 	auto nextPixelRow = m_buffer + m_width;
 
 	// todo: test parallel loop execution
-	// #pragma omp for
+	//#pragma omp for
 	for (int y = 0; y < m_height; ++y)
 	{
 		std::string pixelsString(firstPixelRow, nextPixelRow);
@@ -106,9 +106,9 @@ void Renderer::ClearBuffer()
 	GenerateScreenOutline();
 }
 
-void Renderer::DrawPixel(int x, int y, ScreenPixel pixel)
+void Renderer::DrawPixel(float x, float y, ScreenPixel pixel)
 {
-	int index = y * m_width + x;
+	int index = to_int(y) * m_width + to_int(x);
 
 	if (index < 0 || index >= m_width * m_height)
 	{

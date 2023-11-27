@@ -5,18 +5,26 @@
 class UIGameWindow: public UIWindow
 {
 public:
-	UIGameWindow(int x, int y, int width, int height) : UIWindow(x, y, width, height)
+	UIGameWindow(float x, float y, int width, int height) : UIWindow(x, y, width, height)
 	{
 
 	}
 
+
 	void Initialise() override;
+	void CreateGameOverWindow();
+	void Update();
+	void Reset();
 	void SetScore(int score);
 	void SetDifficulty(int difficulty);
+
+	void ShowGameOver();
 
 private:
 	std::shared_ptr<UIText> m_scoreText;
 	std::shared_ptr<UIText> m_difficultyText;
-	std::shared_ptr<UIText> m_lifesText;
+
+
+	std::shared_ptr<UIBox> m_gameOverWindow;
 };
 

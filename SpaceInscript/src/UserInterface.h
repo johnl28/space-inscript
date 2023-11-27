@@ -15,21 +15,21 @@
 class UI: public Viewport, public Singleton<UI>
 {
 public:
-	void Initialise(int x, int y, int width, int height);
+	void Initialise(float x, float y, int width, int height);
 	void Render();
 
 	void CreateLogoHeader();
 
 
-	UIVerticalLine* CreateVerticalLine(int x, int y, int height);
-	UIHorizontalLine* CreateHorizontalLine(int x, int y, int width);
-	UIText* CreateText(int x, int y, std::string text);
-	UIBox* CreateBox(int x, int y, int width, int height);
-	UIOptionText* CreateOptionText(int x, int y, std::string label);
+	UIVerticalLine* CreateVerticalLine(float x, float y, int height);
+	UIHorizontalLine* CreateHorizontalLine(float x, float y, int width);
+	UIText* CreateText(float x, float y, std::string text);
+	UIBox* CreateBox(float x, float y, int width, int height);
+	UIOptionText* CreateOptionText(float x, float y, std::string label);
 
 private:
-	void AddElement(UIElement* element);
-	bool DeleteElement(UIElement* element);
+	void AddElement(std::shared_ptr<UIElement> element);
+	bool DeleteElement(std::shared_ptr<UIElement> element);
 
 	void DrawElements();
 	void DrawElement(UIElement* element);

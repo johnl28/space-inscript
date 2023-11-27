@@ -1,10 +1,11 @@
 #pragma once
+#include "Utils.h"
 #include "UIElement.h"
 
 class UIText : public UIElement
 {
 public:
-	UIText(int x, int y, std::string text) : UIElement(x, y), m_text(text)
+	UIText(float x, float y, std::string text) : UIElement(x, y), m_text(text)
 	{
 		SetType(UIElementType::ELEMENT_TEXT);
 	}
@@ -38,7 +39,7 @@ public:
 	{
 		auto parentWidth = m_parent ? m_parent->GetWidth() : 1;
 
-		m_position.x = parentWidth / 2 - GetWidth() / 2;
+		m_position.x = to_float(parentWidth / 2 - GetWidth() / 2);
 	}
 
 	void SetHorizontalAlignCentered(bool isCentered)

@@ -1,7 +1,7 @@
 #pragma once
 #include "Core.h"
 #include "Event.h"
-#include "GameCore.h"
+#include "LevelManager.h"
 
 class EnemySpawnEvent: public LoopEvent
 {
@@ -12,7 +12,7 @@ public:
 
 	void Trigger()
 	{
-		auto game = GameCore::GetInstance();
+		auto game = LevelManager::GetInstance();
 
 		game->SpawnRandomEnemy();
 	}

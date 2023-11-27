@@ -49,7 +49,7 @@ public:
 
 		bool isColliding = (otherPos.x < thisPos.x + thisWidth) &&
 			(thisPos.x < otherPos.x + otherWidth) &&
-			(otherPos.y == thisPos.y);
+			(to_int(otherPos.y) == to_int(thisPos.y));
 
 		if (isColliding) 
 		{
@@ -86,12 +86,12 @@ public:
 		this->SetX(this->GetX() + m_speed);
 	}
 
-	void SetSpeed(int speed)
+	void SetSpeed(float speed)
 	{
 		m_speed = speed;
 	}
 
-	void IncreaseSpeed(int speedAmount)
+	void IncreaseSpeed(float speedAmount)
 	{
 		m_speed += speedAmount;
 	}
@@ -134,7 +134,7 @@ public:
 private:
 	bool m_active = true;
 	bool m_isDestroyed = false;
-	int m_speed = 1;
+	float m_speed = 1.0f;
 
 	std::unique_ptr<Controller> m_controller = nullptr;
 };

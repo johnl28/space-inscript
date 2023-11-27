@@ -24,7 +24,7 @@
     <ClCompile Include="src\Renderer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\GameCore.cpp">
+    <ClCompile Include="src\LevelManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\ActorManager.cpp">
@@ -68,7 +68,7 @@
     <ClInclude Include="src\Entity\Player.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\GameCore.h">
+    <ClInclude Include="src\LevelManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\Singleton.h">
@@ -153,6 +153,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\UI\Element\UIOptionText.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Utils.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

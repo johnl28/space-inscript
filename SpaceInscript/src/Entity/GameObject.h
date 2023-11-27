@@ -27,28 +27,28 @@ public:
 		m_position = newPosition;
 	}
 
-	void SetX(int x)
+	void SetX(float x)
 	{
 		m_position.x = x;
 	}
 
-	void SetY(int y)
+	void SetY(float y)
 	{
 		m_position.y = y;
 	}
 
-	void SetXY(int x, int y)
+	void SetXY(float x, float y)
 	{
 		m_position.x = x;
 		m_position.y = y;
 	}
 
-	int GetX() const
+	float GetX() const
 	{
 		return m_position.x;
 	}
 
-	int GetY() const
+	float GetY() const
 	{
 		return m_position.y;
 	}

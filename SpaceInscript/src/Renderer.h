@@ -6,6 +6,24 @@
 
 inline void PrintString(int x, int y, const std::string* format);
 
+inline void ClearScreen(int width, int height)
+{
+	static auto hout = GetStdHandle(STD_OUTPUT_HANDLE);
+	if (!hout) {
+		hout = GetStdHandle(STD_OUTPUT_HANDLE);
+	}
+
+	COORD cursorPosition = { 0, 0 };
+	DWORD charsWritten;
+
+	CONSOLE_SCREEN_BUFFER_INFO csbi;
+	GetConsoleScreenBufferInfo(hout, &csbi);
+
+	FillConsoleOutputCharacter(hout, ' ', csbi.dwSize.X * csbi.dwSize.Y, cursorPosition, &charsWritten);
+
+	SetConsoleCursorPosition(hout, cursorPosition);
+}
+
 typedef char ScreenPixel;
 
 class Viewport
@@ -13,7 +31,7 @@ class Viewport
 public:
 	virtual void Render() = 0;
 
-	virtual void Initialise(int x, int y, int width, int height)
+	virtual void Initialise(float x, float y, int width, int height)
 	{
 		m_position = { x, y };
 
@@ -51,7 +69,7 @@ public:
 	void Destroy();
 	void Draw();
 
-	void DrawPixel(int x, int y, ScreenPixel pixel);
+	void DrawPixel(float x, float y, ScreenPixel pixel);
 
 
 private:

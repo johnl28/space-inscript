@@ -17,7 +17,7 @@ enum class GameState {
 };
 
 
-class GameCore: public Singleton<GameCore>
+class LevelManager: public Singleton<LevelManager>
 {
 public:
 	void Initialise();
@@ -53,26 +53,25 @@ private:
 	void ResetLevel();
 	void CreateSpawnEvent();
 
-	void SpawnCoin(int x, int y);
-	void SpawnEnemy(int x, int y);
-	bool SpawnPlayer(int x, int y);
+	void SpawnCoin(float x, float y);
+	void SpawnEnemy(float x, float y);
+	bool SpawnPlayer(float x, float y);
 
 private:
 	GameState m_state = GameState::STATE_MENU;
 
 	int m_gameScore = 0;
-	int m_elapsedSeconds = 0;
 	int m_gameDifficulty = 1;
 
-	std::shared_ptr<Player> m_player;
+	std::shared_ptr<Player> m_player = nullptr;
 
-	std::unique_ptr<UIGameWindow> m_gameWindow;
-	std::unique_ptr<UIMenuWindow> m_menuWindow;
+	std::unique_ptr<UIGameWindow> m_gameWindow = nullptr;
+	std::unique_ptr<UIMenuWindow> m_menuWindow = nullptr;
 
-	std::shared_ptr<EventManager> m_eventManager;
-	std::shared_ptr<ActorManager> m_actorManager;
+	std::shared_ptr<EventManager> m_eventManager = nullptr;
+	std::shared_ptr<ActorManager> m_actorManager = nullptr;
 
-	std::shared_ptr<LoopEvent> m_spawnEnemyEvent;
+	std::shared_ptr<LoopEvent> m_spawnEnemyEvent = nullptr;
 
 
 };

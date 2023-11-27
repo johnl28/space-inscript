@@ -13,13 +13,13 @@ Application::Application(int width, int height): m_width(width), m_height(height
 {
 	Renderer::GetInstance()->Initialise(width, height);
 
-	UI::GetInstance()->Initialise(width - 30 + 1, 1, 30, height - 2);
-	GameView::GetInstance()->Initialise(1, 1,  width - 30, height - 2);
+	GameView::GetInstance()->Initialise(1.0f, 1.0f,  width - 30, height - 2);
+	UI::GetInstance()->Initialise(to_float(width - 30 + 1), 1.0f, 30, height - 2);
 
 	PerformanceMonitor::GetInstance()->Initialise();
 	DebugMonitor::GetInstance()->Initialise();
 
-	GameCore::GetInstance()->Initialise();
+	LevelManager::GetInstance()->Initialise();
 
 }
 
@@ -33,24 +33,25 @@ void Application::Run()
 {
 	m_running = true;
 
+
 	while (m_running)
 	{
-
-
-		UI::GetInstance()->Render();
-		GameView::GetInstance()->Render();
-
-		PerformanceMonitor::GetInstance()->Update();
-		DebugMonitor::GetInstance()->Update();
-		Renderer::GetInstance()->Draw();
-
 		if (CanUpdate())
 		{
-			GameCore::GetInstance()->Update();
+			// Update Game Logic
+			LevelManager::GetInstance()->Update();
 		}
+		
+		GameView::GetInstance()->Render();
+		UI::GetInstance()->Render();
+		
+		DebugMonitor::GetInstance()->Update();
+		Renderer::GetInstance()->Draw();
+		
+		
+		PerformanceMonitor::GetInstance()->Update();
 
 		Sleep(1000 / MAX_FPS);
-
 	}
 }
 

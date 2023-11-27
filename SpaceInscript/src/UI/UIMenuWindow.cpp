@@ -1,6 +1,6 @@
 #include "Core.h"
 #include "UIMenuWindow.h"
-#include "GameCore.h"
+#include "LevelManager.h"
 
 void UIMenuWindow::Initialise()
 {
@@ -29,12 +29,16 @@ void UIMenuWindow::InitialiseInstructions()
 {
 	auto ui = UI::GetInstance();
 
-	auto coinText = ui->CreateOptionText(0, 7, std::format("Collect the coins: {}", COIN_CHAR));
-	m_window->AddChild(coinText);
+	auto instructionsWindow = ui->CreateBox(50.0f, 5.0f, 50, 4);
+	instructionsWindow->SetFill(true);
+	m_window->AddChild(instructionsWindow);
+
+	auto coinText = ui->CreateOptionText(0, 1, std::format("  Collect the coins: {}  ", COIN_CHAR));
+	instructionsWindow->AddChild(coinText);
 	coinText->SetHorizontalAlignCentered(true);
 
-	auto enemyText = ui->CreateOptionText(0, 8, std::format("Avoid the asteroids: {}", ENEMY_CHAR));
-	m_window->AddChild(enemyText);
+	auto enemyText = ui->CreateOptionText(0, 2, std::format("  Avoid the asteroids: {}  ", ENEMY_CHAR));
+	instructionsWindow->AddChild(enemyText);
 	enemyText->SetHorizontalAlignCentered(true);
 }
 
@@ -68,7 +72,7 @@ void UIMenuWindow::ExecuteSelection()
 	switch (m_selectedOption)
 	{
 	case MenuOption::START:
-		GameCore::GetInstance()->StartGame();
+		LevelManager::GetInstance()->StartGame();
 		break;
 
 	case MenuOption::EXIT:

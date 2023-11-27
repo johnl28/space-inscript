@@ -8,16 +8,20 @@
 class PlayerController: public Controller
 {
 public:
-	PlayerController(Player *player)
+	PlayerController(std::shared_ptr<Player> player)
 	{
-		m_player = std::shared_ptr<Player>(player);
+		m_player = player;
 	}
 
 	void Update() override
 	{
- 
-		int x = GameView::GetInstance()->GetWidth() - m_player->GetX();
-		int y = GameView::GetInstance()->GetHeight() - m_player->GetY();
+		if (m_player->IsDead())
+		{
+			return;
+		}
+		
+		int x = GameView::GetInstance()->GetWidth() - to_int(m_player->GetX());
+		int y = GameView::GetInstance()->GetHeight() - to_int(m_player->GetY());
 
 
 		if (GetAsyncKeyState('W') & 0x8000 && y != GameView::GetInstance()->GetHeight())
@@ -38,7 +42,7 @@ public:
 		}
 
 #if _DEBUG
-		if (GetAsyncKeyState('R') & 0x8000)
+		if (GetAsyncKeyState('E') & 0x8000)
 		{
 			m_player->SetXY(0, 0);
 		}

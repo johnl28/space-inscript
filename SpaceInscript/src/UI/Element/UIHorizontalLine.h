@@ -4,7 +4,7 @@
 class UIHorizontalLine : public UIElement
 {
 public:
-	UIHorizontalLine(int x, int y, int width) : UIElement(x, y), m_width(width)
+	UIHorizontalLine(float x, float y, int width) : UIElement(x, y), m_width(width)
 	{
 		SetType(UIElementType::ELEMENT_HORIZONTAL_LINE);
 	}

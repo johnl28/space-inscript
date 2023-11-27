@@ -6,7 +6,7 @@ class UIBox: public UIElement
 {
 
 public:
-	UIBox(int x, int y, int width, int height) : UIElement(x, y), m_width(width), m_height(height)
+	UIBox(float x, float y, int width, int height) : UIElement(x, y), m_width(width), m_height(height)
 	{
 		SetType(UIElementType::ELEMENT_BOX);
 	}

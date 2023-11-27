@@ -3,7 +3,7 @@
 #include "Singleton.h"
 #include "PerformanceMonitor.h"
 #include "Renderer.h"
-#include "GameCore.h"
+#include "LevelManager.h"
 #include "GameView.h"
 #include "UserInterface.h"
 
@@ -45,7 +45,7 @@ public:
 		m_textObjectCount = UI::GetInstance()->CreateText(1, 7, "ObjectCount");
 		m_debugWindow->AddChild(m_textObjectCount);
 
-		m_debugWindow->SetY(UI::GetInstance()->GetHeight() - m_debugWindow->GetHeight() - 2);
+		m_debugWindow->SetY(to_float(UI::GetInstance()->GetHeight() - m_debugWindow->GetHeight() - 2));
 	}
 
 	void Update()
@@ -57,14 +57,14 @@ public:
 
 		auto performance = PerformanceMonitor::GetInstance();
 
-		auto player = GameCore::GetInstance()->GetPlayer();
-		auto eventManager = GameCore::GetInstance()->GetEventManager();
-		auto actorManager = GameCore::GetInstance()->GetActorManager();
+		auto player = LevelManager::GetInstance()->GetPlayer();
+		auto eventManager = LevelManager::GetInstance()->GetEventManager();
+		auto actorManager = LevelManager::GetInstance()->GetActorManager();
 		auto gameView = GameView::GetInstance();
 
 		if (player)
 		{
-			m_textPlayerPos->SetText(std::format("Player Position {}x{}", player->GetX(), player->GetY()));
+			m_textPlayerPos->SetText(std::format("Player Position {:.1f}x{:.1f}", player->GetX(), player->GetY()));
 		}
 
 		if (eventManager)

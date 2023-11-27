@@ -8,8 +8,8 @@ public:
 	void Update();
 	void Reset();
 
-	void QueueEvent(Event *gameEvent);
-	bool DeleteEvent(Event *gameEvent);
+	void QueueEvent(std::shared_ptr<Event> gameEvent);
+	bool DeleteEventById(int id);
 	int GetEventsCount() const;
 
 private:

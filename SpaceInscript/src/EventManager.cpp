@@ -10,7 +10,7 @@ void EventManager::Update()
 
 		if (event->IsDestroyed())
 		{
-			DeleteEvent(event.get());
+			DeleteEventById(event->GetID());
 			continue;
 		}
 
@@ -20,17 +20,18 @@ void EventManager::Update()
 
 void EventManager::Reset()
 {
-	for (auto it = m_eventsMap.begin(); it != m_eventsMap.end();)
-	{
-		auto event = it->second;
-		it++;
-		DeleteEvent(event.get());
-	}
+	m_eventsMap.clear();
+	//for (auto it = m_eventsMap.begin(); it != m_eventsMap.end();)
+	//{
+	//	auto event = it->second;
+	//	it++;
+	//	DeleteEvent(event.get());
+	//}
 }
 
-bool EventManager::DeleteEvent(Event* event)
+bool EventManager::DeleteEventById(int id)
 {
-	auto it = m_eventsMap.find(event->GetID());
+	auto it = m_eventsMap.find(id);
 	if (it == m_eventsMap.end())
 	{
 		return false;
@@ -40,7 +41,7 @@ bool EventManager::DeleteEvent(Event* event)
 	return true;
 }
 
-void EventManager::QueueEvent(Event* gameEvent)
+void EventManager::QueueEvent(std::shared_ptr<Event> gameEvent)
 {
 	++m_eventID;
 
@@ -50,6 +51,6 @@ void EventManager::QueueEvent(Event* gameEvent)
 
 int EventManager::GetEventsCount() const
 {
-	return m_eventsMap.size();
+	return to_int(m_eventsMap.size());
 }
 

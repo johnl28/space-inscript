@@ -7,7 +7,7 @@ class UIWindow
 public:
 	virtual void Initialise() = 0;
 
-	UIWindow(int x, int y, int width, int height)
+	UIWindow(float x, float y, int width, int height)
 	{
 		auto window = UI::GetInstance()->CreateBox(x, y, width, height);
 		m_window = std::shared_ptr<UIBox>(window);

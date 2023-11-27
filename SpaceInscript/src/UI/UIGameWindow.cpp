@@ -16,13 +16,39 @@ void UIGameWindow::Initialise()
 	m_window->AddChild(difficultyText);
 	difficultyText->SetHorizontalAlignCentered(true);
 
-	auto lifesText = ui->CreateText(1, 4, "Lives: 5");
-	m_window->AddChild(lifesText);
-	lifesText->SetHorizontalAlignCentered(true);
 
 	m_difficultyText = std::shared_ptr<UIText>(difficultyText);
-	m_lifesText = std::shared_ptr<UIText>(lifesText);
 	m_scoreText = std::shared_ptr<UIText>(scoreText);
+
+	CreateGameOverWindow();
+}
+
+void UIGameWindow::CreateGameOverWindow()
+{
+	auto ui = UI::GetInstance();
+
+	auto gameOverWindow = ui->CreateBox(50.0f, 5.0f, 50, 4);
+	gameOverWindow->SetFill(true);
+	m_window->AddChild(gameOverWindow);
+
+	auto gameOverText = ui->CreateText(0.0f, 1.0f, "   GAME OVER!   ");
+	gameOverWindow->AddChild(gameOverText);
+	gameOverText->SetHorizontalAlignCentered(true);
+
+	auto restartInfo = ui->CreateText(0.0f, 2.0f, "   PRESS R TO RESTART   ");
+	gameOverWindow->AddChild(restartInfo);
+	restartInfo->SetHorizontalAlignCentered(true);
+
+	gameOverWindow->SetVisible(false);
+	m_gameOverWindow = std::shared_ptr<UIBox>(gameOverWindow);
+}
+
+void UIGameWindow::Update()
+{
+	if (!IsVisible())
+	{
+		return;
+	}
 }
 
 void UIGameWindow::SetScore(int score)
@@ -35,3 +61,13 @@ void UIGameWindow::SetDifficulty(int difficulty)
 	m_difficultyText->SetText(std::format("Level: {}", difficulty));
 }
 
+void UIGameWindow::Reset()
+{
+	m_gameOverWindow->SetVisible(false);
+}
+
+
+void UIGameWindow::ShowGameOver()
+{
+	m_gameOverWindow->SetVisible(true);
+}

@@ -7,9 +7,10 @@
 #include <string>
 #include <format>
 
+#include "Utils.h"
 
-#define MAX_TPS 30 // Max Game Ticks/Loops per second
-#define MAX_FPS 120
+#define MAX_TPS 60 // Max Game Ticks/Loops per second
+#define MAX_FPS 60
 
 
 constexpr const char DEFAULT_OBJECT_CHAR = char(32);
@@ -22,10 +23,10 @@ constexpr const char* ENEMY_CHAR = "@";
 
 struct Position
 {
-	int x;
-	int y;
+	float x;
+	float y;
 
-	Position(int X = 0, int Y = 0): x(X), y(Y)
+	Position(float X = 0, float Y = 0): x(X), y(Y)
 	{
 	}
 

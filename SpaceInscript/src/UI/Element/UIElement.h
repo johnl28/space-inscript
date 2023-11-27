@@ -21,7 +21,7 @@ public:
 
 	UIElement() {}
 
-	UIElement(int x = 0, int y = 0, std::shared_ptr<UIElement> parent = nullptr)
+	UIElement(float x = 0, float y = 0, std::shared_ptr<UIElement> parent = nullptr)
 	{
 		m_position = { x, y };
 	}
@@ -37,18 +37,18 @@ public:
 		return m_id;
 	}
 
-	void SetYX(int x, int y)
+	void SetYX(float x, float y)
 	{
 		m_position.x = x;
 		m_position.y = y;
 	}
 
-	void SetX(int x)
+	void SetX(float x)
 	{
 		m_position.x = x;
 	}
 
-	void SetY(int y)
+	void SetY(float y)
 	{
 		m_position.y = y;
 	}

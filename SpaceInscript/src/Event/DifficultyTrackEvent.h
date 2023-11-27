@@ -1,7 +1,7 @@
 #pragma once
 #include "Core.h"
 #include "Event.h"
-#include "GameCore.h"
+#include "LevelManager.h"
 
 class DifficultyEvent : public LoopEvent
 {
@@ -12,7 +12,7 @@ public:
 
 	void Trigger()
 	{
-		GameCore::GetInstance()->IncrementDifficulty();
+		LevelManager::GetInstance()->IncrementDifficulty();
 	}
 
 

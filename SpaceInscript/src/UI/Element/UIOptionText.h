@@ -4,7 +4,7 @@
 class UIOptionText : public UIText
 {
 public:
-	UIOptionText(int x, int y, std::string label) : UIText(x, y, label), m_label(label)
+	UIOptionText(float x, float y, std::string label) : UIText(x, y, label), m_label(label)
 	{
 
 	}
