@@ -1,4 +1,4 @@
-# Space Inscript
+# Space Inscript v1.0
  - Space Inscript is a console ASCII game created with C++ for Windows.
 
  ![image](https://github.com/johnl28/space-inscript/assets/54412955/1fedf434-0537-42e0-bb0a-c916193f9dcf)
