@@ -1,20 +1,20 @@
 # Space Inscript
+ - Space Inscript is a console ASCII game created with C++ for Windows.
 
-## Description
- - You are controlling a spaceship that is moving in an endless universe and enemies along with other space objects will be able to destroy your spaceship if they collide.
+ ![image](https://github.com/johnl28/space-inscript/assets/54412955/1fedf434-0537-42e0-bb0a-c916193f9dcf)
 
-   Reach the highest score by avoiding the obstacles that are in your way.
-  
+### Gameplay
+ - In Space Inscript you are controlling a spaceship that needs to collect as many coins as possible avoiding the obstacles that would destroy it.  
  - To move the spaceship you will be using **W**,**A**,**S** and **D**
- 
 
-## Technical Stuff & How to build
+### Build Details
 
-- The game is created in C++ for Windows
-- The repository is consisting of a .sln file
-- To build the game you just need to open the solution with Visual Studio 2022 (v143) and run the build task
+- Target Platform: Windows 11
+- Visual Studio Version: 2022 (v143)
+- C++ Version: 20
 
 
 ### Conceptual Class UML Diagram
-todo
+![image](https://github.com/johnl28/space-inscript/assets/54412955/ad982718-126a-48cc-9be7-bb5076463cb1)
+
  
