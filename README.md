@@ -14,7 +14,7 @@
 - C++ Version: 20
 
 
-### Conceptual Class UML Diagram
+### Conceptual UML Class Diagram
 ![image](https://github.com/johnl28/space-inscript/assets/54412955/ad982718-126a-48cc-9be7-bb5076463cb1)
 
  
